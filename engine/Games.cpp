@@ -46,7 +46,7 @@ class Games
                                 return;
                             break;
                             default:
-                                cout << BOLDRED << "You enter number is mistake, try to enter" << RESET << endl;
+                                cout << BOLDRED << "You entered an incorrect number, press enter" << RESET << endl;
                                 return;
                             break;
                         }
@@ -65,7 +65,7 @@ class Games
                         exit(0);
                     break;
                     default:
-                        cout << BOLDRED << "You enter number is mistake, try to enter" << RESET << endl;
+                        cout << BOLDRED << "You entered an incorrect number, press enter" << RESET << endl;
                     break;
                 }
                 return;
@@ -92,12 +92,12 @@ class Games
                 } else if (scorePoint.getPoints() == scorePointRival.getPoints()) {
                     cout << "Draw" << endl;
                 } else {
-                    cout << "You is lost (((" << endl;
+                    cout << "You lost (((" << endl;
                 }
-                cout << "You score point : " << BOLDYELLOW << scorePoint.getPoints() << endl;
+                cout << "Your score point : " << BOLDYELLOW << scorePoint.getPoints() << endl;
                 cout << "Player 2 score point : " << BOLDBLUE << scorePointRival.getPoints() << endl;
                 isStartGame = false;
-                cout << "Press Enter for back to Menu or exit cntr+z" << endl;
+                cout << "Press Enter to return to Menu or Ctl-Z to exit" << endl;
                 sleep(10);
                 read (STDIN_FILENO, &c, readByte);
                 return;

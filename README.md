@@ -2,52 +2,58 @@
 
 Name Game "LionFeeding"
 
-Engine Developer by Igor Branitsky
+Engine developer is Igor Branitsky
 
 ![image](https://github.com/casilliose/game-engine-2d/blob/main/gameplay.gif)
 
-Procces game
-You are playing as a lion, you can moving with keypress
-up, down, left, right in room, you target collect more eats,
-if your lion wiil be hungret you game over.
-Eats will random add on scene, then you deal with food
-game added score points in check
-Then time is over game also over
-and you score points show you
+## Game process.
+You are playing as a lion, you can move using the keys
+up, down, left, right. 
+
+Your goal is to collect food to feed the lion.
+if your lion will be hungry your game is over.
+Food will randomly appear on the scene, then you deal with food
+game added score points in check.
+
+When the time runs out, the game will also end
+and you will see the final score.
 
 # Technical details
 
 The App Graphic in ANSI art
-because i use only linux OC and clear C++
+because I use only Linux OS and pure C++.
 
-2D game engine for writen in CLI
-coordinate system, X and Y axes
+2D game engine is written for CLI
+coordinate system, X and Y axes.
 
-We have in game, scene with games objects: timer countdown,
-score points, walls, player, eats, menu
+During the game on the scene we have objects: timer countdown,
+score points, walls, players, food, menu.
 
-We have in game functions:
-New Game
+The game has functions:
+* New Game
 End Game
-Move player in room
-Add points to score point
-Timer countdown
-Random add eats in scene
-Render Objects on Scene
-Add time to time countdown
+* Move player in room
+* Add points to score point
+* Timer countdown
+* Random addition of food to the scene
+* Render Objects on the scene
+* Add time to the countdown counter
 
 # How build App
 
-for compiler in gcc
-you need run this command
+To compile using the gcc
+```bash
 g++ -o main main.cpp
+```
 
-for run app you need run this command
+To run app
+```bash
 ./main
+```
 
-# This is block with ANSI ART CODE AND UNICODE SYMBOLS
+# ANSI ART CODE AND UNICODE SYMBOLS
 
-for color out put in console and size fonts
+For color out put in console and size fonts
 //the following are UBUNTU/LINUX, and MacOS ONLY terminal color codes.
 > #define RESET   "\033[0m" \n
 > #define BLACK   "\033[30m"      /* Black */ <br/>
@@ -68,22 +74,22 @@ for color out put in console and size fonts
 > #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */ <br/>
 
 
-I used this icon from Unicode for games
-eats
+I used these Unicode icons for the game:
+* food
 🍅
 🍓
 🍐
 🍒
 🍍
 🥩
-player
+* players
 🐆 🦕 🐘 🐐 🐧 🐀 🐂 🐇
-walls
+* walls
 ⬜ ⬛
-timer
+* timer
 ⏳
-score
+* score
 🏁
 🍄
-bomb
+* bomb
 💣
