@@ -13,11 +13,25 @@ class Games
         time_t currentTime;
         uint8_t factor;
         bool isPC;
-        uint16_t countEats {10};
+        uint16_t countFoods {10};
         uint16_t countInedible {2};
         uint16_t currentCountEats {0};
         uint16_t currentCountInedible {0};
         uint16_t countBomd {0};
+
+        struct EatData {
+            std::string icon;
+            int multiplier;
+        };
+
+        const std::map<int, EatData> eatLookup = {
+            {1, {"🍒", 1}},
+            {2, {"🍅", 2}},
+            {3, {"🍓", 3}},
+            {4, {"🍐", 4}},
+            {5, {"🍍", 5}},
+            {6, {"🥩", 1}}
+        };
 
     public:
         void play()
@@ -46,7 +60,8 @@ class Games
                                 return;
                             break;
                             default:
-                                cout << BOLDRED << "You entered an incorrect number, press enter" << RESET << endl;
+                                cout << BOLDRED << "You entered an incorrect number" << endl;
+                                sleep(1);
                                 return;
                             break;
                         }
@@ -65,7 +80,9 @@ class Games
                         exit(0);
                     break;
                     default:
-                        cout << BOLDRED << "You entered an incorrect number, press enter" << RESET << endl;
+                        cout << BOLDRED << "You entered an incorrect number" << endl;
+                        sleep(1);
+                        cout << RESET << endl;
                     break;
                 }
                 return;
@@ -97,7 +114,7 @@ class Games
                 cout << "Your score point : " << BOLDYELLOW << scorePoint.getPoints() << endl;
                 cout << "Player 2 score point : " << BOLDBLUE << scorePointRival.getPoints() << endl;
                 isStartGame = false;
-                cout << "Press Enter to return to Menu or Ctl-Z to exit" << endl;
+                cout << "Press Enter to return to Menu or Ctl-C to exit" << endl;
                 sleep(10);
                 read (STDIN_FILENO, &c, readByte);
                 return;
@@ -280,15 +297,15 @@ class Games
 
         void eatsAddToScene()
         {
-            if (currentCountEats < countEats) {
-                for(size_t i = 1; i <= (countEats - currentCountEats); i++) {
+            if (currentCountEats < countFoods) {
+                for(size_t i = 1; i <= (countFoods - currentCountEats); i++) {
                     scene.setItemMap(
                         getRandomCoordinatsX(scene.getSizeX()),
                         getRandomCoordinatsY(scene.getSizeY()),
                         getRandomEats(currentCountEats)
                     );
                 }
-                currentCountEats = countEats;
+                currentCountEats = countFoods;
             }
 
             if (currentCountInedible < countInedible) {
@@ -333,7 +350,7 @@ class Games
                 case 2:
                     sceneX = 35;
                     sceneY = 75;
-                    countEats = 7;
+                    countFoods = 7;
                     countInedible = 2;
                     timeCnock = 60;
                     factor = 2;
@@ -341,13 +358,13 @@ class Games
                 case 3:
                     sceneX = 50;
                     sceneY = 100;
-                    countEats = 5;
+                    countFoods = 5;
                     countInedible = 10;
                     timeCnock = 30;
                     factor = 1;
                 break;
             }
-            currentCountEats = countEats;
+            currentCountEats = countFoods;
             currentCountInedible = countInedible;
 
             Scene scene(sceneX, sceneY);
@@ -374,63 +391,17 @@ class Games
             scene.setItemMap(player2->getCoordinatX(), player2->getCoordinatY(), player2);
             this->player2 = player2;
 
-            for (size_t i = 0; i <= countEats; i++) {
-                uint16_t rendEat = getRandomEatType(countEats);
-                switch (rendEat)
-                {
-                    case 1:
-                    {
-                        Eats* cherry = new Eats(1, 1, false, "🍒");
-                        cherry->setScorePoints(factor * 1);
-                        scene.setItemMap(getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), cherry);
-                    }
-                    break;
-                    case 2:
-                    {
-                        Eats* eatTomato = new Eats(1, 1, false, "🍅");
-                        eatTomato->setScorePoints(factor * 2);
-                        scene.setItemMap(this->getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), eatTomato);
-                    }
-                    break;
-                    case 3:
-                    {
-                        Eats* eatStrawberry = new Eats(1, 1, false, "🍓");
-                        eatStrawberry->setScorePoints(this->factor * 3);
-                        scene.setItemMap(getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), eatStrawberry);
-                    }
-                    break;
-                    case 4:
-                    {
-                        Eats* eatPear = new Eats(1, 1, false, "🍐");
-                        eatPear->setScorePoints(factor * 4);
-                        scene.setItemMap(getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), eatPear);
-                    }
-                    break;
-                    case 5:
-                    {
-                        Eats* eatPineapple = new Eats(1, 1, false, "🍍");
-                        eatPineapple->setScorePoints(factor * 5);
-                        scene.setItemMap(getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), eatPineapple);
-                    }
-                    break;
-                    case 6:
-                    {
-                        Eats* eatMeat = new Eats(1, 1, false, "🥩");
-                        eatMeat->setScorePoints(factor * 1);
-                        scene.setItemMap(this->getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), eatMeat);
-                    }   
-                    break;
-                    default:
-                    {
-                        Eats* eatCherry = new Eats(1, 1, false, "🍒");
-                        eatCherry->setScorePoints(factor * 1);
-                        scene.setItemMap(getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), eatCherry);
-                    }
-                    break;
-                }
+            for (size_t i = 0; i < countFoods; i++) {
+                uint16_t rendFood = getRandomEatType(countFoods);
+                
+                auto it = eatLookup.find(rendFood);
+                const EatData& data = (it != eatLookup.end()) ? it->second : eatLookup.at(1);
+                Eats* newItem = new Eats(1, 1, false, data.icon);
+                newItem->setScorePoints(factor * data.multiplier);
+                scene.setItemMap(getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), newItem);
             }
 
-            for (size_t i = 1; i <= countInedible; i++) {
+            for (size_t i = 0; i < countInedible; i++) {
                 AbstractObjects* amanita = new Inedible(1, 1, false, "🍄");
                 scene.setItemMap(getRandomCoordinatsX(xMax), getRandomCoordinatsY(yMax), amanita);
             }
@@ -459,71 +430,25 @@ class Games
             this->startTime = time(0);
         }
 
-        Eats* getRandomEats(uint16_t countEats)
+        Eats* getRandomEats(uint16_t countFoods)
         {
-            uint16_t rendEat = this->getRandomEatType(countEats);
-            switch (rendEat)
-            {
-                case 1:
-                {
-                    Eats* eat = new Eats(1, 1, false, "🍒");
-                    eat->setScorePoints(factor * 1);
-                    return eat;
-                }
-                break;
-                case 2:
-                {
-                    Eats* eat = new Eats(1, 1, false, "🍅");
-                    eat->setScorePoints(factor * 2);
-                    return eat;
-                }
-                break;
-                case 3:
-                {
-                    Eats* eat = new Eats(1, 1, false, "🍓");
-                    eat->setScorePoints(factor * 3);
-                    return eat;
-                }
-                break;
-                case 4:
-                {
-                    Eats* eat = new Eats(1, 1, false, "🍐");
-                    eat->setScorePoints(factor * 4);
-                    return eat;
-                }
-                break;
-                case 5:
-                {
-                    Eats* eat = new Eats(1, 1, false, "🍍");
-                    eat->setScorePoints(factor * 5);
-                    return eat;
-                }
-                break;
-                case 6:
-                {
-                    Eats* eat = new Eats(1, 1, false, "🥩");
-                    eat->setScorePoints(factor * 1);
-                    return eat;
-                }   
-                break;
-                default:
-                {
-                    Eats* eat = new Eats(1, 1, false, "🍒");
-                    eat->setScorePoints(factor * 1);
-                    return eat;
-                }
-                break;
-            }
+            uint16_t rendFood = this->getRandomEatType(countFoods);
+
+                auto it = eatLookup.find(rendFood);
+                const EatData& data = (it != eatLookup.end()) ? it->second : eatLookup.at(1);
+                Eats* newItem = new Eats(1, 1, false, data.icon);
+                newItem->setScorePoints(factor * data.multiplier);
+                return newItem;
         }
 
-        uint16_t getRandomEatType(uint16_t countEats)
+        uint16_t getRandomEatType(uint16_t countFoods)
         {
             std::random_device random_device; // Источник энтропии.
             std::mt19937 generator(random_device()); // Генератор случайных чисел.
             // (Здесь берется одно инициализирующее значение, можно брать больше)
-            if (countEats >= 10) {
+            if (countFoods >= 10) {
                 std::uniform_int_distribution<> distribution(3, 6);
-            } else if (countEats >= 7) {
+            } else if (countFoods >= 7) {
                 std::uniform_int_distribution<> distribution(2, 5);
             } else {
                 std::uniform_int_distribution<> distribution(1, 3);

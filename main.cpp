@@ -30,7 +30,7 @@
 #define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
-#define CLEAR u8"\033[2J\033[1;1H" /* clear console */
+#define CLEAR       u8"\033[2J\033[1;1H"   /* clear console */
 
 #include "engine/objects/AbstractObjects.cpp"
 #include "engine/objects/Eats.cpp"
